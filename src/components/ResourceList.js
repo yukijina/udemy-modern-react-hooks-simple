@@ -1,8 +1,25 @@
 import React, { useState, useEffect} from 'react';
 import axios from 'axios'
 
-const ResourceList = ({ resource }) => {
+// N0.3 another way - reusable
+const useResources = (resource) => {
     const [resources, setResources] = useState([])
+
+    useEffect(
+        () => {
+            (async resource => {
+                const response = await axios.get(`https://jsonplaceholder.typicode.com/${resource}`)
+        
+                setResources(response.data)
+            })(resource); // invoking right way - same as (()=> somecode)()
+    }, [resource])
+
+    // return array
+    return resources
+}
+
+const ResourceList = ({ resource }) => {
+    // const [resources, setResources] = useState([])
 
     // const fetchResource = async () => {
     //     const response = await axios.get(`https://jsonplaceholder.typicode.com/${resource}`)
@@ -17,18 +34,18 @@ const ResourceList = ({ resource }) => {
     // No array means called only once
     // But if you want to use as componentDidUpdate function, you want to invoke only once. Put empty array [] otherwise it called forever(loop)
     
-    // Another way
-    useEffect(
-        () => {
-            (async resource => {
-                const response = await axios.get(`https://jsonplaceholder.typicode.com/${resource}`)
+    // No.2 Another way
+    // useEffect(
+    //     () => {
+    //         (async resource => {
+    //             const response = await axios.get(`https://jsonplaceholder.typicode.com/${resource}`)
         
-                setResources(response.data)
-            })(resource); // invoking right way - same as (()=> somecode)()
-    }, [resource])
+    //             setResources(response.data)
+    //         })(resource); // invoking right way - same as (()=> somecode)()
+    // }, [resource])
 
 
-
+    const resources = useResources(resource)
 
         return (
             <div>
