@@ -4,7 +4,6 @@ import ResourceList from './ResourceList'
 const  App = () => {
   // const [currentValue, setcurrentValue] = function from React - useState(initialValue)
   const [resource, setResource] = useState('posts')
-
     return (
       <div>
         <div>
